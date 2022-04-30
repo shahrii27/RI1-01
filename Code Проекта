@@ -1,0 +1,218 @@
+import tkinter as tk
+
+class SampleApp(tk.Tk):
+    def __init__(self, *arg, **kwargs):
+        tk.Tk.__init__(self, *arg, **kwargs)
+        container = tk.Frame(self)
+        container.pack(side='top', fill='both', expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (StartPage, MenuPage, Registration, Account, About, MainMenu):
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+
+            frame.grid(row=0, column=0, sticky='nsew')
+
+            self.show_frame('StartPage')
+
+    def show_frame(self, page_name):
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+
+class StartPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="white")
+        self.controller = controller
+        self.controller.title('REKMIX')
+        self.controller.state('zoomed')
+
+        big_lable = tk.Label(self, text='Online learning center "TRUST"', font=('Bad Script', 65, 'bold'),fg='magenta', bg='white')
+        big_lable.pack(pady=30)
+
+        login_lable = tk.Label(self, text='Insert your login', font=('Times New Roman', 17, 'bold'),fg='hot pink', bg='white')
+        login_lable.pack(pady=20)
+
+        my_login = tk.StringVar()
+        login_entry = tk.Entry(self, textvariable=my_login, font=('Times New Roman', 17, 'bold'),fg='red', bg='white')
+        login_entry.pack(pady=20)
+
+        password_lable = tk.Label(self, text='Insert your password', font=('Times New Roman', 17, 'bold'),fg='hot pink', bg='white')
+        password_lable.pack(pady=20)
+
+        my_password = tk.StringVar()
+        password_entry = tk.Entry(self, textvariable=my_password, font=('Times New Roman', 17, 'bold'),fg='red', bg='white')
+        password_entry.pack(pady=20)
+
+        def check_password():
+            if my_password.get() == '27' and my_login.get() == 'sh':
+                controller.show_frame('MenuPage')
+
+            else:
+                right_lable['text'] = 'Wrong password'
+
+        password_button = tk.Button(self, text='Check', command=check_password, font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        password_button.pack()
+        right_lable = tk.Label(self, font=('Times New Roman', 18, 'bold'), fg='hot pink', bg='white')
+        right_lable.pack(pady=10)
+
+        def register():
+            controller.show_frame('Registration')
+
+        register_button = tk.Button(self, text='Registartion', command=register, font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        register_button.pack(pady=50)
+
+
+class Registration(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg='white')
+        self.controller = controller
+
+        heading_lable = tk.Label(self, text="New User Registration", font=('Bad Script', 50, 'bold'),fg='hot pink', bg='white')
+        heading_lable.pack(pady=17)
+
+        name_1_lable = tk.Label(self, text="Full Name", font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        name_1_lable.pack(pady=12)
+
+        name_1_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_1_entry.pack(pady=0)
+
+        name_2_lable = tk.Label(self, text="Date of Birth", font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        name_2_lable.pack(pady=12)
+
+        name_2_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_2_entry.pack(pady=0)
+
+        name_3_lable = tk.Label(self, text="Phone Number", font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        name_3_lable.pack(pady=12)
+
+        name_3_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_3_entry.pack(pady=0)
+
+        name_4_lable = tk.Label(self, text="E-mail", font=('Times New Roman', 18, 'bold'),fg='magenta', bg='white')
+        name_4_lable.pack(pady=12)
+
+        name_4_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_4_entry.pack(pady=0)
+
+        name_5_lable = tk.Label(self, text="Login", font=('Times New Roman', 18, 'bold'), fg='magenta', bg='white')
+        name_5_lable.pack(pady=12)
+
+        name_5_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_5_entry.pack(pady=0)
+
+        name_6_lable = tk.Label(self, text="Password", font=('Times New Roman', 18, 'bold'), fg='magenta', bg='white')
+        name_6_lable.pack(pady=12)
+
+        name_6_entry = tk.Entry(self, width=25, font=('Cascadia Mono', 17, 'bold'), fg="magenta")
+        name_6_entry.pack(pady=0)
+
+        def save():
+            controller.show_frame('MenuPage')
+
+        save_button = tk.Button(self, text="Create", bg="white", width=7, command=save, font=('Times New Roman', 19, 'bold'), fg="hot pink")
+        save_button.pack()
+        save_button.place(x=955, y=635)
+
+        def back():
+            controller.show_frame('StartPage')
+
+        back_button = tk.Button(self, text='Back', command=back, font=('Times New Roman', 17, 'bold'),fg='hot pink', bg='white')
+        back_button.pack(pady=30)
+        back_button.place(x=959, y=690)
+
+class MenuPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent,bg='white')
+        self.controller=controller
+        big_lable = tk.Label(self, text='Get knowledge with "TRUST"', font=('Bad Script', 53, 'bold'), fg='hot pink', bg='white')
+        big_lable.pack(pady=30)
+        big_lable.place(x=500, y=50)
+
+
+        def get_account():
+            controller.show_frame('Account')
+
+        contact_button = tk.Button(self, text="Personal Account", command=(get_account), font=('Broadway', 16, 'bold'), fg='white', bg='lavender')
+        contact_button.pack(pady=30)
+        contact_button.place(x=170, y=20)
+
+        def get_about():
+            controller.show_frame('About')
+
+        contact_button = tk.Button(self, text="About", command=(get_about), font=('Broadway', 16, 'bold'), fg='white', bg='lavender')
+        contact_button.pack(pady=30)
+        contact_button.place(x=412, y=20)
+
+        def get_mainmenu():
+            controller.show_frame('MainMenu')
+
+        contact_button = tk.Button(self, text="Menu Page", command=(get_mainmenu), font=('Broadway', 16, 'bold'), fg='white', bg='lavender')
+        contact_button.pack(pady=30)
+        contact_button.place(x=10, y=20)
+
+
+class Account(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="white")
+        self.controller = controller
+        self.controller.title('TRUST')
+        self.controller.state('zoomed')
+
+        big_lable = tk.Label(self, text='All personal information about the student and his Progress', font=('Bad Script', 43, 'bold'), fg='hot pink', bg='white')
+        big_lable.pack(pady=30)
+        text = tk.Label(self, text='', font=('Times New Roman', 12, 'bold'), fg='pink', bg='white')
+        text.pack(pady=30)
+
+        def return_MenuPage():
+            controller.show_frame('MenuPage')
+
+        return_button = tk.Button(self, text='Back', command=return_MenuPage,font=('Times New Roman', 20, 'bold'), fg='white', bg='lavender')
+        return_button.pack(pady=300)
+        return_button.place(x=10, y=10)
+
+class MainMenu(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="white")
+        self.controller = controller
+        self.controller.title('TRUST')
+        self.controller.state('zoomed')
+
+        big_lable = tk.Label(self, text='Choice of courses', font=('Bad Script', 60, 'bold'), fg='hot pink', bg='white')
+        big_lable.pack(pady=30)
+        text = tk.Label(self, text='', font=('Times New Roman', 12, 'bold'), fg='pink', bg='white')
+        text.pack(pady=30)
+
+        def return_MenuPage():
+            controller.show_frame('MenuPage')
+
+        return_button = tk.Button(self, text='Back', command=return_MenuPage,font=('Times New Roman', 20, 'bold'), fg='white', bg='lavender')
+        return_button.pack(pady=300)
+        return_button.place(x=10, y=10)
+
+class About(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="white")
+        self.controller = controller
+        self.controller.title('TRUST')
+        self.controller.state('zoomed')
+
+        big_lable = tk.Label(self, text='Our Information', font=('Bad Script', 60, 'bold'), fg='hot pink', bg='white')
+        big_lable.pack(pady=30)
+        text = tk.Label(self, text='', font=('Times New Roman', 12, 'bold'), fg='pink', bg='white')
+        text.pack(pady=30)
+
+        def return_MenuPage():
+            controller.show_frame('MenuPage')
+
+        return_button = tk.Button(self, text='Back', command=return_MenuPage,font=('Times New Roman', 20, 'bold'), fg='white', bg='lavender')
+        return_button.pack(pady=300)
+        return_button.place(x=10, y=10)
+
+
+if __name__=='__main__':
+    app = SampleApp()
+    app.mainloop()
